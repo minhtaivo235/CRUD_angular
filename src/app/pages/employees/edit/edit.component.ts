@@ -11,7 +11,9 @@ import { EmployeeService } from 'src/app/service/employee.service';
 })
 export class EditComponent implements OnInit {  
   id: number;
+  length;
   header: string;
+  employees: Array<Employee>;
   employee: Employee = {
     id: 0,
     name: '',
@@ -32,6 +34,11 @@ export class EditComponent implements OnInit {
 
     if(this.id != 0) {
       this.employee = this.employeeService.onGetEmployee(this.id);
+      
+    }
+    else {
+      this.employees = this.employeeService.onGet();
+      this.employee.id = Number(this.employees[this.employees.length - 1].id + 1);      
     }
   }
 
@@ -40,20 +47,20 @@ export class EditComponent implements OnInit {
   }
 
   onSubmit(form: NgForm) {
-    let employee: Employee = {
-      id: form.value.id,
-      name: form.value.name,
-      email: form.value.email,
-      phone: form.value.phone,
-    }
+    // let employee: Employee = {
+    //   id: form.value.id,
+    //   name: form.value.name,
+    //   email: form.value.email,
+    //   phone: form.value.phone,
+    // }
+    this.employee.name = form.value.name;
+    this.employee.email = form.value.email;
+    this.employee.phone = form.value.phone;
     if(this.id === 0) {
-      this.employeeService.onAdd(employee);
-      console.log(employee);
-      
+      this.employeeService.onAdd(this.employee);           
     }
     else {
-      this.employeeService.onUpdate(employee);
-      console.log(employee);
+      this.employeeService.onUpdate(this.employee);      
     }
     this.router.navigateByUrl('');
   }  

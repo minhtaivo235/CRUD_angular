@@ -37,10 +37,11 @@ export class EmployeeService {
   }
   onUpdate(oldEmployee) {
     let newEmployee = this.employees.find(item => item.id === oldEmployee.id);
-    let index = this.employees.indexOf(oldEmployee, 0);
+    let index = this.employees.indexOf(oldEmployee);
+    newEmployee.id = oldEmployee.id;
     newEmployee.name = oldEmployee.name;
     newEmployee.email = oldEmployee.email;
     newEmployee.phone = oldEmployee.phone;
-    return this.employees.splice(index, 1, newEmployee);
+    
   }
 }
